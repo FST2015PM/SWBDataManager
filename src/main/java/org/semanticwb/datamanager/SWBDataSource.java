@@ -105,19 +105,23 @@ public class SWBDataSource
         return fetch(DataUtils.toDataObject(json));
     }
     
-    public DataObject aggregate(DataObject json) throws IOException
-    {
-        if(canDoAction(ACTION_AGGREGATE))
+    public DataObject aggregate(DataObject json, boolean allowDiskUsage) throws IOException {
+    		if(canDoAction(ACTION_AGGREGATE))
         {        
             DataObject req=engine.invokeDataProcessors(name, SWBDataSource.ACTION_AGGREGATE, SWBDataProcessor.METHOD_REQUEST, json);
-            DataObject res=db.aggregate(req,this);
+            DataObject res=db.aggregate(req,this, allowDiskUsage);
             res=engine.invokeDataProcessors(name, SWBDataSource.ACTION_AGGREGATE, SWBDataProcessor.METHOD_RESPONSE, res);
             engine.invokeDataServices(name, SWBDataSource.ACTION_AGGREGATE, req, res);
             return res;
         }else
         {
             return getError(-5, "Forbidden Action");
-        }            
+        } 
+    }
+    
+    public DataObject aggregate(DataObject json) throws IOException
+    {
+        return aggregate(json, false);           
     }
     
     public DataObject aggregate(jdk.nashorn.api.scripting.ScriptObjectMirror json) throws IOException
