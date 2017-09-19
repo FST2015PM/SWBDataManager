@@ -226,7 +226,8 @@ public class DataStoreMongo implements SWBDataStore
             Iterator<DBObject> it = null;
             
             if (allowDiskUsage) {
-            		Cursor aout = coll.aggregate(data, AggregationOptions.builder().allowDiskUse(true).build());
+            		AggregationOptions opts = AggregationOptions.builder().allowDiskUse(true).build();
+            		Cursor aout = coll.aggregate(data, opts);
             		it = aout;
             } else {
             		AggregationOutput aggrout = coll.aggregate(data);

@@ -109,7 +109,7 @@ public class SWBDataSource
     		if(canDoAction(ACTION_AGGREGATE))
         {        
             DataObject req=engine.invokeDataProcessors(name, SWBDataSource.ACTION_AGGREGATE, SWBDataProcessor.METHOD_REQUEST, json);
-            DataObject res=db.aggregate(req,this, allowDiskUsage);
+            DataObject res=db.aggregate(req, this, allowDiskUsage);
             res=engine.invokeDataProcessors(name, SWBDataSource.ACTION_AGGREGATE, SWBDataProcessor.METHOD_RESPONSE, res);
             engine.invokeDataServices(name, SWBDataSource.ACTION_AGGREGATE, req, res);
             return res;
